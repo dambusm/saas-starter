@@ -1,0 +1,13 @@
+query getPosts($limit: Int!) {
+  post(limit: $limit) {
+    content
+    id
+  }
+}
+
+mutation createPost($content: String!) {
+  insert_post_one(object: { content: $content }) {
+    content
+    id
+  }
+}

@@ -1,0 +1,12 @@
+query getUserByEmail($email: String!) {
+  users(where: { email: { _eq: $email } }, limit: 1) {
+    email
+    id
+  }
+}
+
+mutation createUser($email: String!) {
+  insert_users_one(object: { email: $email }) {
+    id
+  }
+}
