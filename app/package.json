@@ -1,10 +1,10 @@
 {
-  "name": "@next-hasura-boilerplate/app",
+  "name": "@saas-starter/app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "next build",
-    "start": "concurrently \"next dev\" \"yarn workspace @next-hasura-boilerplate/data-lib generate --watch\"",
+    "start": "concurrently \"next dev\" \"yarn workspace @saas-starter/data-lib generate --watch\"",
     "deploy:dev": "vercel",
     "deploy:prod": "vercel --prod",
     "analyze": "ANALYZE=true yarn build"
@@ -26,7 +26,7 @@
     "sass": "1.30.0"
   },
   "peerDependencies": {
-    "@next-hasura-boilerplate/data-lib": "*",
+    "@saas-starter/data-lib": "*",
     "prettier": "*",
     "typescript": "*"
   }

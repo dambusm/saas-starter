@@ -1,4 +1,4 @@
-import { DataManager } from '@next-hasura-boilerplate/data-lib';
+import { DataManager } from '@saas-starter/data-lib';
 import { Provider as NextAuthProvider } from 'next-auth/client';
 import { AppProps } from 'next/app';
 import React from 'react';

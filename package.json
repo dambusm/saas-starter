@@ -1,5 +1,5 @@
 {
-  "name": "next-hasura-boilerplate",
+  "name": "saas-starter",
   "private": true,
   "workspaces": {
     "packages": [

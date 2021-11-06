@@ -1,5 +1,5 @@
-import { AuthError, DataManager } from '@next-hasura-boilerplate/data-lib';
-import { DataLibError } from '@next-hasura-boilerplate/data-lib/src/data-lib-error';
+import { AuthError, DataManager } from '@saas-starter/data-lib';
+import { DataLibError } from '@saas-starter/data-lib/src/data-lib-error';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { InitOptions } from 'next-auth';
 import Providers from 'next-auth/providers';
