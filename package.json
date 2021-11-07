@@ -4,7 +4,8 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "app"
+      "app",
+      "backend"
     ]
   },
   "scripts": {
