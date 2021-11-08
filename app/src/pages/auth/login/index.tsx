@@ -1,6 +1,6 @@
 import React, { FC, useRef } from 'react';
 import useSWR from 'swr';
-import { publicDataManager } from '../../_app';
+import { dataManager } from '../../_app';
 import styles from '../../posts/posts.module.scss';
 
 const Index: FC = (props) => {
@@ -18,7 +18,7 @@ const Index: FC = (props) => {
           if (!email || !password) {
             throw new Error('Missing expected value');
           }
-          publicDataManager.authManager.login(email, password);
+          dataManager.authManager.login(email, password);
         }}
       >
         Login

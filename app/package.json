@@ -10,10 +10,12 @@
     "analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "1.6.2",
     "next": "10.0.4",
     "next-transpile-modules": "7.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-redux": "7.2.6",
     "swr": "0.4.1",
     "water.css": "https://github.com/kognise/water.css"
   },

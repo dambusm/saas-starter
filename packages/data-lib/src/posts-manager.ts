@@ -5,8 +5,14 @@ export class PostsManager {
   constructor(directusSDK: DirectusSdk) {
     this.directusSDK = directusSDK;
   }
-  getPosts(limit = 10) {
-    return this.directusSDK.ItemsManager.readItemsPosts({ limit });
+  async getPosts(limit = 10) {
+    const response = await this.directusSDK.ItemsManager.readItemsPosts({
+      limit,
+    });
+    if (!response.data) {
+      throw new Error('No data');
+    }
+    return { data: response.data };
   }
 
   createPost(content: string) {
