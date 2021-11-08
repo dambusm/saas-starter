@@ -1,10 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import { AbortController } from 'abort-controller';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import FormData from 'form-data';
-import fetch, { BodyInit, Headers, RequestInit, Response } from 'node-fetch';
-import { types } from 'util';
 
 import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
@@ -25,15 +23,8 @@ function isStringWithValue(value: any): value is string {
     return isString(value) && value !== '';
 }
 
-function isBlob(value: any): value is Blob {
-    return value instanceof Blob;
-}
-
-function isBinary(value: any): value is Buffer | ArrayBuffer | ArrayBufferView {
-    const isBuffer = Buffer.isBuffer(value);
-    const isArrayBuffer = types.isArrayBuffer(value);
-    const isArrayBufferView = types.isArrayBufferView(value);
-    return isBuffer || isArrayBuffer || isArrayBufferView;
+function isSuccess(status: number): boolean {
+    return status >= 200 && status < 300;
 }
 
 function base64(str: string): string {
@@ -102,57 +93,40 @@ async function resolve<T>(options: ApiRequestOptions, resolver?: T | Resolver<T>
     return resolver;
 }
 
-async function getHeaders(options: ApiRequestOptions): Promise<Headers> {
+async function getHeaders(options: ApiRequestOptions, formData?: FormData): Promise<Record<string, string>> {
     const token = await resolve(options, OpenAPI.TOKEN);
     const username = await resolve(options, OpenAPI.USERNAME);
     const password = await resolve(options, OpenAPI.PASSWORD);
     const additionalHeaders = await resolve(options, OpenAPI.HEADERS);
+    const formHeaders = typeof formData?.getHeaders === 'function' && formData?.getHeaders() || {}
 
-    const defaultHeaders = Object.entries({
+    const headers = Object.entries({
         Accept: 'application/json',
         ...additionalHeaders,
         ...options.headers,
+        ...formHeaders,
     })
-        .filter(([_, value]) => isDefined(value))
-        .reduce((headers, [key, value]) => ({
-            ...headers,
-            [key]: value,
-        }), {});
-
-    const headers = new Headers(defaultHeaders);
+    .filter(([_, value]) => isDefined(value))
+    .reduce((headers, [key, value]) => ({
+        ...headers,
+        [key]: value,
+    }), {} as Record<string, string>);
 
     if (isStringWithValue(token)) {
-        headers.append('Authorization', `Bearer ${token}`);
+        headers['Authorization'] = `Bearer ${token}`;
     }
 
     if (isStringWithValue(username) && isStringWithValue(password)) {
         const credentials = base64(`${username}:${password}`);
-        headers.append('Authorization', `Basic ${credentials}`);
+        headers['Authorization'] = `Basic ${credentials}`;
     }
 
-    if (options.body) {
-        if (options.mediaType) {
-            headers.append('Content-Type', options.mediaType);
-        } else if (isBinary(options.body)) {
-            headers.append('Content-Type', 'application/octet-stream');
-        } else if (isString(options.body)) {
-            headers.append('Content-Type', 'text/plain');
-        } else {
-            headers.append('Content-Type', 'application/json');
-        }
-    }
     return headers;
 }
 
-function getRequestBody(options: ApiRequestOptions): BodyInit | undefined {
+function getRequestBody(options: ApiRequestOptions): any {
     if (options.body) {
-        if (options.mediaType?.includes('/json')) {
-            return JSON.stringify(options.body)
-        } else if (isString(options.body) || isBlob(options.body) || isBinary(options.body)) {
-            return options.body as any;
-        } else {
-            return JSON.stringify(options.body);
-        }
+        return options.body;
     }
     return;
 }
@@ -161,27 +135,28 @@ async function sendRequest(
     options: ApiRequestOptions,
     url: string,
     formData: FormData | undefined,
-    body: BodyInit | undefined,
-    headers: Headers,
+    body: any,
+    headers: Record<string, string>,
     onCancel: OnCancel
-): Promise<Response> {
-    const controller = new AbortController();
+): Promise<AxiosResponse<any>> {
+    const source = axios.CancelToken.source();
 
-    const request: RequestInit = {
+    const config: AxiosRequestConfig = {
+        url,
         headers,
+        data: body || formData,
         method: options.method,
-        body: body || formData,
-        signal: controller.signal,
+        cancelToken: source.token,
     };
 
-    onCancel(() => controller.abort());
+    onCancel(() => source.cancel('The user aborted a request.'));
 
-    return await fetch(url, request);
+    return await axios.request(config);
 }
 
-function getResponseHeader(response: Response, responseHeader?: string): string | undefined {
+function getResponseHeader(response: AxiosResponse<any>, responseHeader?: string): string | undefined {
     if (responseHeader) {
-        const content = response.headers.get(responseHeader);
+        const content = response.headers[responseHeader];
         if (isString(content)) {
             return content;
         }
@@ -189,21 +164,9 @@ function getResponseHeader(response: Response, responseHeader?: string): string 
     return;
 }
 
-async function getResponseBody(response: Response): Promise<any> {
+function getResponseBody(response: AxiosResponse<any>): any {
     if (response.status !== 204) {
-        try {
-            const contentType = response.headers.get('Content-Type');
-            if (contentType) {
-                const isJSON = contentType.toLowerCase().startsWith('application/json');
-                if (isJSON) {
-                    return await response.json();
-                } else {
-                    return await response.text();
-                }
-            }
-        } catch (error) {
-            console.error(error);
-        }
+        return response.data;
     }
     return;
 }
@@ -231,7 +194,7 @@ function catchErrors(options: ApiRequestOptions, result: ApiResult): void {
 }
 
 /**
- * Request using node-fetch client
+ * Request using axios client
  * @param options The request options from the the service
  * @returns CancelablePromise<T>
  * @throws ApiError
@@ -242,16 +205,16 @@ export function request<T>(options: ApiRequestOptions): CancelablePromise<T> {
             const url = getUrl(options);
             const formData = getFormData(options);
             const body = getRequestBody(options);
-            const headers = await getHeaders(options);
+            const headers = await getHeaders(options, formData);
 
             if (!onCancel.isCancelled) {
                 const response = await sendRequest(options, url, formData, body, headers, onCancel);
-                const responseBody = await getResponseBody(response);
+                const responseBody = getResponseBody(response);
                 const responseHeader = getResponseHeader(response, options.responseHeader);
 
                 const result: ApiResult = {
                     url,
-                    ok: response.ok,
+                    ok: isSuccess(response.status),
                     status: response.status,
                     statusText: response.statusText,
                     body: responseHeader || responseBody,
