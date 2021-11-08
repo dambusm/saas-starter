@@ -5,6 +5,11 @@ export class AuthManager {
   constructor(directusSDK: DirectusSdk) {
     this.directusSDK = directusSDK;
   }
+  async login(email: string, password: string) {
+    return this.directusSDK.AuthManager.login({
+      requestBody: { email, password },
+    });
+  }
   async getUserMe() {
     return this.directusSDK.UsersManager.getMe({});
   }
