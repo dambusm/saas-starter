@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "allowJs": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
@@ -16,7 +16,7 @@
     "jsx": "react",
     "types": ["node"],
     "noFallthroughCasesInSwitch": true,
-    "lib": ["es5"],
+    "lib": ["esnext"],
     "noUncheckedIndexedAccess": true
   },
   "include": ["src"]

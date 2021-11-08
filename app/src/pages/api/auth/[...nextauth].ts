@@ -1,4 +1,4 @@
-import { AuthError, DataManager } from '@saas-starter/data-lib';
+import { DataManager } from '@saas-starter/data-lib';
 import { DataLibError } from '@saas-starter/data-lib/src/data-lib-error';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { InitOptions } from 'next-auth';
@@ -27,20 +27,20 @@ const options: InitOptions = {
   callbacks: {
     signIn: async (user, account, profile) => {
       try {
-        if (!user.email) {
-          throw new Error('No email provided by Oauth provider');
-        }
-        const dataManager = new DataManager(HASURA_ADMIN_SECRET);
-        await dataManager.authManager.createUser(user.email);
+        // if (!user.email) {
+        //   throw new Error('No email provided by Oauth provider');
+        // }
+        // const dataManager = new DataManager(HASURA_ADMIN_SECRET);
+        // await dataManager.authManager.createUser(user.email);
         return Promise.resolve(true);
-      } catch (error) {
-        if (
-          error instanceof DataLibError &&
-          error.type === AuthError.UserAlreadyExists
-        ) {
-          console.log('User exists');
-          return Promise.resolve(true);
-        }
+      } catch {
+        // if (
+        //   error instanceof DataLibError &&
+        //   error.type === AuthError.UserAlreadyExists
+        // ) {
+        //   console.log('User exists');
+        //   return Promise.resolve(true);
+        // }
         return Promise.resolve(false);
       }
     },

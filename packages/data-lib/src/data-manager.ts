@@ -1,14 +1,14 @@
 import { AuthManager } from './auth-manager';
-import { getHasuraSDK, HasuraSDK } from './data-sources/hasura/hasura-sdk';
+import { DirectusSdk } from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
 
 export class DataManager {
-  hasuraSDK: HasuraSDK;
+  directusSDK: DirectusSdk;
   authManager: AuthManager;
   postsManager: PostsManager;
-  constructor(adminSecret?: string) {
-    this.hasuraSDK = getHasuraSDK(adminSecret);
-    this.authManager = new AuthManager(this.hasuraSDK);
-    this.postsManager = new PostsManager(this.hasuraSDK);
+  constructor() {
+    this.directusSDK = new DirectusSdk();
+    this.authManager = new AuthManager(this.directusSDK);
+    this.postsManager = new PostsManager(this.directusSDK);
   }
 }
