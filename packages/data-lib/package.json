@@ -5,12 +5,17 @@
   "main": "src/index.ts",
   "scripts": {
     "update-sdk": "yarn introspect && yarn generate",
-    "generate": "yarn openapi --input src/data-sources/directus/temp/oas.json --output src/data-sources/directus/api-codegen-sdk --useOptions",
+    "generate": "yarn openapi --input src/data-sources/directus/temp/oas.json --output src/data-sources/directus/api-codegen-sdk --useOptions --client node",
     "introspect": "source '.env' && curl ${DIRECTUS_BASE_URL}/server/specs/oas -H \"Authorization: Bearer ${DIRECTUS_ADMIN_TOKEN}\" > src/data-sources/directus/temp/oas.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "abort-controller": "3.0.0",
+    "form-data": "4.0.0",
+    "node-fetch": "2.6.6"
+  },
   "devDependencies": {
     "@types/node": "16.11.6",
+    "@types/node-fetch": "3.0.3",
     "openapi-typescript-codegen": "0.11.8"
   },
   "peerDependencies": {

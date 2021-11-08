@@ -1,6 +1,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import { AbortController } from 'abort-controller';
+import FormData from 'form-data';
+import fetch, { BodyInit, Headers, RequestInit, Response } from 'node-fetch';
+import { types } from 'util';
+
 import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { ApiResult } from './ApiResult';
@@ -22,6 +27,13 @@ function isStringWithValue(value: any): value is string {
 
 function isBlob(value: any): value is Blob {
     return value instanceof Blob;
+}
+
+function isBinary(value: any): value is Buffer | ArrayBuffer | ArrayBufferView {
+    const isBuffer = Buffer.isBuffer(value);
+    const isArrayBuffer = types.isArrayBuffer(value);
+    const isArrayBufferView = types.isArrayBufferView(value);
+    return isBuffer || isArrayBuffer || isArrayBufferView;
 }
 
 function base64(str: string): string {
@@ -121,15 +133,14 @@ async function getHeaders(options: ApiRequestOptions): Promise<Headers> {
     if (options.body) {
         if (options.mediaType) {
             headers.append('Content-Type', options.mediaType);
-        } else if (isBlob(options.body)) {
-            headers.append('Content-Type', options.body.type || 'application/octet-stream');
+        } else if (isBinary(options.body)) {
+            headers.append('Content-Type', 'application/octet-stream');
         } else if (isString(options.body)) {
             headers.append('Content-Type', 'text/plain');
         } else {
             headers.append('Content-Type', 'application/json');
         }
     }
-
     return headers;
 }
 
@@ -137,8 +148,8 @@ function getRequestBody(options: ApiRequestOptions): BodyInit | undefined {
     if (options.body) {
         if (options.mediaType?.includes('/json')) {
             return JSON.stringify(options.body)
-        } else if (isString(options.body) || isBlob(options.body)) {
-            return options.body;
+        } else if (isString(options.body) || isBlob(options.body) || isBinary(options.body)) {
+            return options.body as any;
         } else {
             return JSON.stringify(options.body);
         }
@@ -158,14 +169,10 @@ async function sendRequest(
 
     const request: RequestInit = {
         headers,
-        body: body || formData,
         method: options.method,
+        body: body || formData,
         signal: controller.signal,
     };
-
-    if (OpenAPI.WITH_CREDENTIALS) {
-        request.credentials = 'include';
-    }
 
     onCancel(() => controller.abort());
 
@@ -224,7 +231,7 @@ function catchErrors(options: ApiRequestOptions, result: ApiResult): void {
 }
 
 /**
- * Request using fetch client
+ * Request using node-fetch client
  * @param options The request options from the the service
  * @returns CancelablePromise<T>
  * @throws ApiError

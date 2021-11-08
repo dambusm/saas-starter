@@ -6,8 +6,8 @@ export class DataManager {
   directusSDK: DirectusSdk;
   authManager: AuthManager;
   postsManager: PostsManager;
-  constructor() {
-    this.directusSDK = new DirectusSdk();
+  constructor(baseURL: string) {
+    this.directusSDK = new DirectusSdk(baseURL);
     this.authManager = new AuthManager(this.directusSDK);
     this.postsManager = new PostsManager(this.directusSDK);
   }

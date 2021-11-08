@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "start": "concurrently \"next dev\" \"yarn workspace @saas-starter/data-lib generate --watch\"",
+    "start": "next dev",
     "deploy:dev": "vercel",
     "deploy:prod": "vercel --prod",
     "analyze": "ANALYZE=true yarn build"
