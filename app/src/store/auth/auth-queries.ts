@@ -4,7 +4,7 @@ import { executeQueryAndTransformResponse } from '../store';
 
 export const authQueries = createApi({
   reducerPath: 'auth',
-  baseQuery: fetchBaseQuery(), // Not used
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/auth' }),
   endpoints: (build) => ({
     login: build.query({
       queryFn: async ({
@@ -19,18 +19,13 @@ export const authQueries = createApi({
         ),
     }),
     signup: build.query({
-      queryFn: async ({
-        email,
-        password,
-      }: {
-        email: string;
-        password: string;
-      }) =>
-        executeQueryAndTransformResponse(() =>
-          dataManager.authManager.signup(email, password)
-        ),
+      query: ({ email, password }: { email: string; password: string }) => ({
+        url: 'signup',
+        method: 'POST',
+        body: { email, password },
+      }),
     }),
   }),
 });
 
-export const { useLazyLoginQuery } = authQueries;
+export const { useLazyLoginQuery, useLazySignupQuery } = authQueries;
