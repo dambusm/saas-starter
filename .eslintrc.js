@@ -25,7 +25,6 @@ module.exports = {
     'unicorn/import-index': 'error',
     'unicorn/import-style': 'error',
     'unicorn/new-for-builtins': 'error',
-    'unicorn/no-abusive-eslint-disable': 'error',
     'unicorn/no-array-instanceof': 'error',
     'unicorn/no-console-spaces': 'error',
     'unicorn/no-fn-reference-in-iterator': 'error',

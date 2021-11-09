@@ -1,18 +1,20 @@
 import { DataManager } from '@saas-starter/data-lib';
-import { Provider as NextAuthProvider } from 'next-auth/client';
 import { AppProps } from 'next/app';
 import React from 'react';
 import 'water.css/dist/light.css';
+import config from '../lib/config';
 import Logger from '../lib/logger';
+import { Provider } from 'react-redux';
+import store from '../store/store';
 
 export const logger = new Logger();
 
-export const publicDataManager = new DataManager();
+export const dataManager = new DataManager(config.baseURL);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <NextAuthProvider session={pageProps.session}>
+    <Provider store={store}>
       <Component {...pageProps} />
-    </NextAuthProvider>
+    </Provider>
   );
 }

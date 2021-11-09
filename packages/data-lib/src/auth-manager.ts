@@ -1,28 +1,16 @@
-import { DataLibError } from './data-lib-error';
-import { HasuraSDK } from './data-sources/hasura/hasura-sdk';
-import { isUniquenessConstraintError } from './data-sources/hasura/types';
-
-export enum AuthError {
-  UserAlreadyExists = 'UserAlreadyExists',
-}
+import { DirectusSdk } from './data-sources/directus/directus-sdk';
 
 export class AuthManager {
-  hasuraSDK: HasuraSDK;
-  constructor(hasuraSDK: HasuraSDK) {
-    this.hasuraSDK = hasuraSDK;
+  directusSDK: DirectusSdk;
+  constructor(directusSDK: DirectusSdk) {
+    this.directusSDK = directusSDK;
   }
-  async getUserByEmail(email: string) {
-    return (await this.hasuraSDK.getUserByEmail({ email })).users[0];
+  async login(email: string, password: string) {
+    return this.directusSDK.AuthManager.login({
+      requestBody: { email, password },
+    });
   }
-
-  async createUser(email: string) {
-    try {
-      return (await this.hasuraSDK.createUser({ email })).insert_users_one?.id;
-    } catch (error) {
-      if (isUniquenessConstraintError(error)) {
-        throw new DataLibError(error, AuthError.UserAlreadyExists);
-      }
-      throw new DataLibError(error);
-    }
+  async getUserMe() {
+    return this.directusSDK.UsersManager.getMe({});
   }
 }

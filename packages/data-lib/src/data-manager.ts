@@ -1,14 +1,23 @@
 import { AuthManager } from './auth-manager';
-import { getHasuraSDK, HasuraSDK } from './data-sources/hasura/hasura-sdk';
+import { DirectusSdk } from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
+import axios, { AxiosError } from 'axios';
 
 export class DataManager {
-  hasuraSDK: HasuraSDK;
+  directusSDK: DirectusSdk;
   authManager: AuthManager;
   postsManager: PostsManager;
-  constructor(adminSecret?: string) {
-    this.hasuraSDK = getHasuraSDK(adminSecret);
-    this.authManager = new AuthManager(this.hasuraSDK);
-    this.postsManager = new PostsManager(this.hasuraSDK);
+  constructor(baseURL: string) {
+    this.directusSDK = new DirectusSdk(baseURL);
+    this.authManager = new AuthManager(this.directusSDK);
+    this.postsManager = new PostsManager(this.directusSDK);
   }
 }
+
+type DataLibError = AxiosError & {
+  code: undefined;
+  status?: number;
+};
+
+export const isDataLibError = (toCheck: any): toCheck is DataLibError =>
+  axios.isAxiosError(toCheck);

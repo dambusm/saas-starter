@@ -1,10 +1,8 @@
-import { AuthError } from './auth-manager';
-
 enum GeneralApiError {
   UnknownError = 'Unknown error',
 }
 
-type ErrorEnum = AuthError | GeneralApiError;
+type ErrorEnum = GeneralApiError;
 
 export class DataLibError extends Error {
   type: ErrorEnum;

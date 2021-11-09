@@ -1,19 +1,23 @@
-import { HasuraSDK } from './data-sources/hasura/hasura-sdk';
-
-export enum PostsError {
-  UserAlreadyExists = 'UserAlreadyExists',
-}
+import { DirectusSdk } from './data-sources/directus/directus-sdk';
 
 export class PostsManager {
-  hasuraSDK: HasuraSDK;
-  constructor(hasuraSDK: HasuraSDK) {
-    this.hasuraSDK = hasuraSDK;
+  directusSDK: DirectusSdk;
+  constructor(directusSDK: DirectusSdk) {
+    this.directusSDK = directusSDK;
   }
-  async getPosts(limit: number = 10) {
-    return (await this.hasuraSDK.getPosts({ limit })).post;
+  async getPosts(limit = 10) {
+    const response = await this.directusSDK.ItemsManager.readItemsPosts({
+      limit,
+    });
+    if (!response.data) {
+      throw new Error('No data');
+    }
+    return { data: response.data };
   }
 
-  async createPost(content: string) {
-    return (await this.hasuraSDK.createPost({ content })).insert_post_one;
+  createPost(content: string) {
+    return this.directusSDK.ItemsManager.createItemsPosts({
+      requestBody: [{ content }],
+    });
   }
 }
