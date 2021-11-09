@@ -10,6 +10,11 @@ export class AuthManager {
       requestBody: { email, password },
     });
   }
+  async signup(email: string, password: string) {
+    return this.directusSDK.UsersManager.createUser({
+      requestBody: { email, password },
+    });
+  }
   async getUserMe() {
     return this.directusSDK.UsersManager.getMe({});
   }

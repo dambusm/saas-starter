@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { isDataLibError } from '@saas-starter/data-lib';
 import { dataManager } from '../../pages/_app';
+import { executeQueryAndTransformResponse } from '../store';
 
 export const authQueries = createApi({
   reducerPath: 'auth',
@@ -13,23 +13,22 @@ export const authQueries = createApi({
       }: {
         email: string;
         password: string;
-      }) => {
-        try {
-          const response = await dataManager.authManager.login(email, password);
-          return { data: response.data };
-        } catch (error) {
-          if (isDataLibError(error)) {
-            return {
-              error: {
-                status: error.status ? Number(error.status) : 598,
-                data: JSON.stringify(error),
-              },
-            };
-          } else {
-            return { error: { status: 599, data: JSON.stringify(error) } };
-          }
-        }
-      },
+      }) =>
+        executeQueryAndTransformResponse(() =>
+          dataManager.authManager.login(email, password)
+        ),
+    }),
+    signup: build.query({
+      queryFn: async ({
+        email,
+        password,
+      }: {
+        email: string;
+        password: string;
+      }) =>
+        executeQueryAndTransformResponse(() =>
+          dataManager.authManager.signup(email, password)
+        ),
     }),
   }),
 });
