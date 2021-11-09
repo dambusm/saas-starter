@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "@saas-starter/logger",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "peerDependencies": {
+    "typescript": "*"
+  }
+}
