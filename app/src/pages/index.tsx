@@ -1,16 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import useSWR from 'swr';
 
 export default function Home() {
-  // Client side data fetching
-  const { data, error } = useSWR('todos', () =>
-    fetch('https://jsonplaceholder.typicode.com/todos/1').then((response) =>
-      response.json()
-    )
-  );
-  console.log(data);
-
   return (
     <div className="container">
       <Head>

@@ -1,5 +1,4 @@
 import React, { FC, useRef, useState } from 'react';
-import useSWR from 'swr';
 import { useLazyLoginQuery } from '../../../store/auth/auth-queries';
 import { dataManager } from '../../_app';
 import styles from '../../posts/posts.module.scss';
