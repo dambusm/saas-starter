@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { authQueries } from './auth/auth-queries';
 import counterReducer from './counter/slice';
 import { postsQueries } from './posts/posts-queries';
 
@@ -8,6 +9,7 @@ const store = configureStore({
   reducer: {
     counter: counterReducer,
     [postsQueries.reducerPath]: postsQueries.reducer,
+    [authQueries.reducerPath]: authQueries.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(postsQueries.middleware),

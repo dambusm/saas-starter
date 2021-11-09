@@ -1,6 +1,7 @@
 import { AuthManager } from './auth-manager';
 import { DirectusSdk } from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
+import axios, { AxiosError } from 'axios';
 
 export class DataManager {
   directusSDK: DirectusSdk;
@@ -12,3 +13,11 @@ export class DataManager {
     this.postsManager = new PostsManager(this.directusSDK);
   }
 }
+
+type DataLibError = AxiosError & {
+  code: undefined;
+  status?: number;
+};
+
+export const isDataLibError = (toCheck: any): toCheck is DataLibError =>
+  axios.isAxiosError(toCheck);

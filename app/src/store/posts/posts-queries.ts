@@ -3,7 +3,7 @@ import { dataManager } from '../../pages/_app';
 
 export const postsQueries = createApi({
   reducerPath: 'posts',
-  baseQuery: fetchBaseQuery(),
+  baseQuery: fetchBaseQuery(), // Not used
   endpoints: (build) => ({
     getPosts: build.query({
       queryFn: async (limit = 10) => {
