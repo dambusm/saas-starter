@@ -1,18 +1,18 @@
+import { ItemsPosts } from './data-sources/directus/api-codegen-sdk';
 import { DirectusSdk } from './data-sources/directus/directus-sdk';
 
+export type GetPostsParameters = { limit: number; creatorId?: string };
 export class PostsManager {
   directusSDK: DirectusSdk;
   constructor(directusSDK: DirectusSdk) {
     this.directusSDK = directusSDK;
   }
-  async getPosts(limit = 10) {
-    const response = await this.directusSDK.ItemsManager.readItemsPosts({
+  async getPosts(parameters: GetPostsParameters) {
+    const { limit, creatorId } = parameters;
+    return this.directusSDK.ItemsManager.readItemsPosts({
       limit,
+      filter: ['[first_name][_eq]=Rijk'],
     });
-    if (!response.data) {
-      throw new Error('No data');
-    }
-    return { data: response.data };
   }
 
   createPost(content: string) {
