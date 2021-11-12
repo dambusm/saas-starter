@@ -1,6 +1,7 @@
 import { DataManager } from '@saas-starter/data-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import config from '../../../lib/config';
+import { dataManager } from '../../_app';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const typedQuery = req.body as { email?: string; password?: string };
@@ -15,14 +16,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).send('Password is required');
   }
   const dataManager = new DataManager(config.baseURL);
-  const authToken = process.env.SERVER_FUNCTIONS_DIRECTUS_TOKEN;
-  if (!authToken) {
-    throw new Error('Missing env variable SERVER_FUNCTIONS_DIRECTUS_TOKEN');
+  const serverAuthToken = process.env.SERVER_FUNCTIONS_DIRECTUS_TOKEN;
+  const userRoleId = process.env.DIRECTUS_USER_ROLE_ID;
+  if (!serverAuthToken || !userRoleId) {
+    throw new Error('Missing env variable');
   }
-  dataManager.directusSDK.setAuthorizationHeader(authToken);
-  const response = await dataManager.authManager.signup(email, password);
+  dataManager.directusSDK.setAuthorizationHeader(serverAuthToken);
+  const response = await dataManager.authManager.signup(
+    email,
+    password,
+    userRoleId
+  );
   if (!response.data) {
     throw new Error('Missing expected response data');
   }
-  return res.status(200).send(response.data);
+  return res.status(200).send(response);
 };
+
+export type SignupResponse = PromiseResult<
+  ReturnType<typeof dataManager.authManager.signup>
+>;

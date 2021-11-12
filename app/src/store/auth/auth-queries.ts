@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { dataManager } from '../../pages/_app';
+import { SignupResponse } from '../../pages/api/auth/signup';
 import { executeQueryAndTransformResponse } from '../store';
 
 export const authQueries = createApi({
@@ -24,6 +25,7 @@ export const authQueries = createApi({
         method: 'POST',
         body: { email, password },
       }),
+      transformResponse: (response: { data: SignupResponse }) => response.data,
     }),
   }),
 });
