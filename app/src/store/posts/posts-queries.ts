@@ -7,9 +7,15 @@ export const postsQueries = createApi({
   baseQuery: fetchBaseQuery(), // Not used
   endpoints: (build) => ({
     getPosts: build.query({
-      queryFn: async (limit = 10) =>
+      queryFn: async ({
+        limit = 10,
+        creatorId,
+      }: {
+        limit?: number;
+        creatorId?: string;
+      }) =>
         executeQueryAndTransformResponse(() =>
-          dataManager.postsManager.getPosts(limit)
+          dataManager.postsManager.getPosts({ limit, creatorId })
         ),
     }),
   }),

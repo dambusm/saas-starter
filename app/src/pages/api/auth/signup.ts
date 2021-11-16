@@ -21,13 +21,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!serverAuthToken || !userRoleId) {
     throw new Error('Missing env variable');
   }
-  dataManager.directusSDK.setAuthorizationHeader(serverAuthToken);
+  dataManager.directusSDK.auth.static(serverAuthToken);
   const response = await dataManager.authManager.signup(
     email,
     password,
     userRoleId
   );
-  if (!response.data) {
+  if (!response) {
     throw new Error('Missing expected response data');
   }
   return res.status(200).send(response);

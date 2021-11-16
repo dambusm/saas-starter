@@ -12,7 +12,7 @@ export async function getStaticProps() {
   // `getStaticProps` is invoked on the server-side,
   // so this `fetcher` function will be executed on the server-side.
   const postsResponse = await executeQueryAndTransformResponse(() =>
-    dataManager.postsManager.getPosts()
+    dataManager.postsManager.getPosts({ limit: 10 })
   );
   if (postsResponse.error) {
     throw new Error(postsResponse.error.data);

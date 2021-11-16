@@ -1,9 +1,11 @@
 import {
   AuthenticationService,
+  ItemsPosts,
   ItemsService,
   OpenAPI,
   UsersService,
 } from './api-codegen-sdk';
+import { Directus } from '@directus/sdk';
 
 export class DirectusSdk {
   constructor(baseURL: string) {
@@ -16,3 +18,14 @@ export class DirectusSdk {
   UsersManager = UsersService;
   AuthManager = AuthenticationService;
 }
+
+export enum DirectusItem {
+  Posts = 'posts',
+}
+
+export const getTypedDirectusSDK = (baseUrl: string) =>
+  new Directus<{
+    [DirectusItem.Posts]: ItemsPosts;
+  }>(baseUrl);
+
+export type TypedDirectusSDK = ReturnType<typeof getTypedDirectusSDK>;

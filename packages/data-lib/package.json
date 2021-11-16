@@ -8,13 +8,16 @@
     "generate": "yarn openapi --input src/data-sources/directus/temp/oas.json --output src/data-sources/directus/api-codegen-sdk --useOptions --client axios",
     "introspect": "mkdir -p src/data-sources/directus/temp/ && source '.env' && curl ${DIRECTUS_BASE_URL}/server/specs/oas -H \"Authorization: Bearer ${DIRECTUS_ADMIN_TOKEN}\" > src/data-sources/directus/temp/oas.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@directus/sdk": "9.0.1"
+  },
   "devDependencies": {
     "@types/node": "16.11.7",
     "openapi-typescript-codegen": "0.11.8"
   },
   "peerDependencies": {
     "axios": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@saas-starter/helpers": "*"
   }
 }
