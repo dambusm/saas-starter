@@ -1,7 +1,4 @@
-import {
-  DirectusSdk,
-  TypedDirectusSDK,
-} from './data-sources/directus/directus-sdk';
+import { TypedDirectusSDK } from './data-sources/directus/directus-sdk';
 
 export class AuthManager {
   directusSDK: TypedDirectusSDK;
