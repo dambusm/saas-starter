@@ -1,12 +1,10 @@
 import { AuthManager } from './auth-manager';
 import {
-  DirectusSdk,
   getTypedDirectusSDK,
   TypedDirectusSDK,
 } from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
 import axios, { AxiosError } from 'axios';
-import { Directus } from '@directus/sdk';
 
 export class DataManager {
   directusSDK: TypedDirectusSDK;
