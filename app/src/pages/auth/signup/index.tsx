@@ -1,16 +1,14 @@
 import React, { FC, useRef, useState } from 'react';
-import {
-  useLazyLoginQuery,
-  useLazySignupQuery,
-} from '../../../store/auth/auth-queries';
+import { useLazyLoginQuery } from '../../../store/auth/auth-manager-queries';
 import { dataManager } from '../../_app';
 import styles from '../../posts/posts.module.scss';
+import { useLazySignupQuery } from '../../../store/auth/auth-api-queries';
 
 const Index: FC = (props) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState();
-  const [login, result, lastPromiseInfo] = useLazySignupQuery();
+  const [signup, result, lastPromiseInfo] = useLazySignupQuery();
   return (
     <div>
       <h1>Signup</h1>
@@ -23,7 +21,7 @@ const Index: FC = (props) => {
           if (!email || !password) {
             throw new Error('Missing expected value');
           }
-          await login({ email, password });
+          await signup({ email, password });
         }}
       >
         Signup

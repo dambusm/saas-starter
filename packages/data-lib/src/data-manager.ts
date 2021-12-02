@@ -4,7 +4,7 @@ import {
   TypedDirectusSDK,
 } from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
-import axios, { AxiosError } from 'axios';
+import { TransportError } from '@directus/sdk';
 
 export class DataManager {
   directusSDK: TypedDirectusSDK;
@@ -17,10 +17,7 @@ export class DataManager {
   }
 }
 
-type DataLibError = AxiosError & {
-  code: undefined;
-  status?: number;
-};
+type DataLibError = TransportError;
 
-export const isDataLibError = (toCheck: any): toCheck is DataLibError =>
-  axios.isAxiosError(toCheck);
+export const isDataLibError = (toCheck: unknown): toCheck is DataLibError =>
+  toCheck instanceof TransportError;
