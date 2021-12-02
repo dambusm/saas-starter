@@ -1,21 +1,18 @@
-import { DirectusSdk } from './data-sources/directus/directus-sdk';
+import { TypedDirectusSDK } from './data-sources/directus/directus-sdk';
 
 export class AuthManager {
-  directusSDK: DirectusSdk;
-  constructor(directusSDK: DirectusSdk) {
+  directusSDK: TypedDirectusSDK;
+  constructor(directusSDK: TypedDirectusSDK) {
     this.directusSDK = directusSDK;
   }
   async login(email: string, password: string) {
-    return this.directusSDK.AuthManager.login({
-      requestBody: { email, password },
-    });
+    const response = await this.directusSDK.auth.login({ email, password });
+    return { data: response };
   }
   async signup(email: string, password: string, roleId: string) {
-    return this.directusSDK.UsersManager.createUser({
-      requestBody: { email, password, role: roleId },
-    });
+    return this.directusSDK.users.createOne({ email, password, role: roleId });
   }
   async getUserMe() {
-    return this.directusSDK.UsersManager.getMe({});
+    return { data: this.directusSDK.users.me };
   }
 }

@@ -1,0 +1,5 @@
+- Directus provides a JS SDK
+- It comes untyped, although soon should be able to generate types: https://github.com/directus/directus/pull/8531
+- In the meantime, we use `openapi-typescript-codegen` to generate types from Directus' OpenAPI schema endpoint
+- Run `yarn update-sdk` to update `openapi-typescript-codegen` generated types
+- We write a simple interface on top of this SDK, to hide any complexity, ensure consistency and minimise lock-in by having an API that we control.

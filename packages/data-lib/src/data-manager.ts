@@ -1,14 +1,17 @@
 import { AuthManager } from './auth-manager';
-import { DirectusSdk } from './data-sources/directus/directus-sdk';
+import {
+  getTypedDirectusSDK,
+  TypedDirectusSDK,
+} from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
 import axios, { AxiosError } from 'axios';
 
 export class DataManager {
-  directusSDK: DirectusSdk;
+  directusSDK: TypedDirectusSDK;
   authManager: AuthManager;
   postsManager: PostsManager;
   constructor(baseURL: string) {
-    this.directusSDK = new DirectusSdk(baseURL);
+    this.directusSDK = getTypedDirectusSDK(baseURL);
     this.authManager = new AuthManager(this.directusSDK);
     this.postsManager = new PostsManager(this.directusSDK);
   }
