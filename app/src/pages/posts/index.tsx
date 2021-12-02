@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { executeQueryAndTransformResponse } from '../../store/store';
+import { fetchAndTransformResponse } from '../../store/lib/baseQueries';
 import { dataManager } from '../_app';
 import styles from './posts.module.scss';
 
@@ -11,7 +11,7 @@ const Index: FC<Props> = (props) => {
 export async function getStaticProps() {
   // `getStaticProps` is invoked on the server-side,
   // so this `fetcher` function will be executed on the server-side.
-  const postsResponse = await executeQueryAndTransformResponse(() =>
+  const postsResponse = await fetchAndTransformResponse(() =>
     dataManager.postsManager.getPosts({ limit: 10 })
   );
   if (postsResponse.error) {

@@ -6,13 +6,12 @@ export class AuthManager {
     this.directusSDK = directusSDK;
   }
   async login(email: string, password: string) {
-    const response = await this.directusSDK.auth.login({ email, password });
-    return { data: response };
+    return this.directusSDK.auth.login({ email, password });
   }
   async signup(email: string, password: string, roleId: string) {
-    return this.directusSDK.users.createOne({ email, password, role: roleId });
+    return this.directusSDK.users.createOne({ email, password });
   }
-  async getUserMe() {
-    return { data: this.directusSDK.users.me };
+  async me() {
+    return this.directusSDK.users.me.read();
   }
 }

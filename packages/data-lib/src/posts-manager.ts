@@ -15,12 +15,14 @@ export class PostsManager {
   }
   async getPosts(parameters: GetPostsParameters) {
     const { limit, creatorId } = parameters;
-    return this.directusItemsManager.readMany({
-      limit,
-      filter: removeUndefinedProperties({
-        Owner: { _eq: creatorId },
-      }),
-    });
+    return (
+      await this.directusItemsManager.readMany({
+        limit,
+        filter: removeUndefinedProperties({
+          Owner: { _eq: creatorId },
+        }),
+      })
+    ).data;
   }
 
   createPost(content: string) {
