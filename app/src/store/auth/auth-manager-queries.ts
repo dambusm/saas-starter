@@ -16,7 +16,13 @@ export const authManagerQueries = createApi({
         fetcher: () => dataManager.authManager.login(email, password),
       }),
     }),
+    refreshToken: build.query({
+      query: () => ({
+        fetcher: () => dataManager.authManager.refreshToken(),
+      }),
+    }),
   }),
 });
 
-export const { useLazyLoginQuery, useMeQuery } = authManagerQueries;
+export const { useLazyLoginQuery, useMeQuery, useLazyRefreshTokenQuery } =
+  authManagerQueries;
