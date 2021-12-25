@@ -1,24 +1,24 @@
 import { dataManager } from '../../../pages/_app';
+import { fetchAndTransformResponse } from '../../lib/baseQueries';
 import { databaseApiSlice, Tag } from '../database-api-slice';
 
 export const authManagerQueriesSlice = databaseApiSlice.injectEndpoints({
   endpoints: (build) => ({
     me: build.query({
-      query: () => ({
-        fetcher: () => dataManager.authManager.me(),
-      }),
+      queryFn: () =>
+        fetchAndTransformResponse(() => dataManager.authManager.me()),
       providesTags: [Tag.CurrentUser],
     }),
     login: build.mutation({
-      query: ({ email, password }: { email: string; password: string }) => ({
-        fetcher: () => dataManager.authManager.login(email, password),
-      }),
+      queryFn: ({ email, password }: { email: string; password: string }) =>
+        fetchAndTransformResponse(() =>
+          dataManager.authManager.login(email, password)
+        ),
       invalidatesTags: [Tag.CurrentUser],
     }),
     refreshToken: build.mutation({
-      query: () => ({
-        fetcher: () => dataManager.authManager.refreshToken(),
-      }),
+      queryFn: () =>
+        fetchAndTransformResponse(() => dataManager.authManager.refreshToken()),
       invalidatesTags: [Tag.CurrentUser],
     }),
   }),

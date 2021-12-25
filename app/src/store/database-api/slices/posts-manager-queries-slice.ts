@@ -1,18 +1,20 @@
 import { dataManager } from '../../../pages/_app';
+import { fetchAndTransformResponse } from '../../lib/baseQueries';
 import { databaseApiSlice } from '../database-api-slice';
 
 export const postsManagerQueriesSlice = databaseApiSlice.injectEndpoints({
   endpoints: (build) => ({
     getPosts: build.query({
-      query: ({
+      queryFn: ({
         limit = 10,
         creatorId,
       }: {
         limit?: number;
         creatorId?: string;
-      }) => ({
-        fetcher: () => dataManager.postsManager.getPosts({ limit, creatorId }),
-      }),
+      }) =>
+        fetchAndTransformResponse(() =>
+          dataManager.postsManager.getPosts({ limit, creatorId })
+        ),
     }),
   }),
 });
