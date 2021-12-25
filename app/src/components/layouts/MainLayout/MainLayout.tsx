@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
-import { useMeQuery } from '../../../store/database-api/slices/auth-manager-queries-slice';
+import useMe from '../../../lib/hooks/useMe';
 
 const Index: FC = (props) => {
   const { children } = props;
-  const { data: me } = useMeQuery({});
+  const { data: me, isLoading } = useMe();
 
   return (
     <>
       <header>
         <h1>Hello, World</h1>
-        {me && <div>{me.email}</div>}
+        {isLoading ? 'loading...' : me ? <div>{me.email}</div> : null}
       </header>
       {children}
     </>
