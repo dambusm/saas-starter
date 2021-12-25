@@ -3,7 +3,7 @@ import { localApiSlice } from '../local-api-slice';
 
 export const authApiSlice = localApiSlice.injectEndpoints({
   endpoints: (build) => ({
-    signup: build.query({
+    signup: build.mutation({
       query: ({ email, password }: { email: string; password: string }) => ({
         url: 'auth/signup',
         method: 'POST',
@@ -14,4 +14,4 @@ export const authApiSlice = localApiSlice.injectEndpoints({
   }),
 });
 
-export const { useLazySignupQuery } = authApiSlice;
+export const { useSignupMutation } = authApiSlice;

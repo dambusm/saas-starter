@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { useLazyLoginQuery } from '../../../store/database-api/slices/auth-manager-queries-slice';
+import { useLoginMutation } from '../../../store/database-api/slices/auth-manager-queries-slice';
 import { dataManager } from '../../_app';
 import styles from '../../posts/posts.module.scss';
 
@@ -7,7 +7,7 @@ const Index: FC = (props) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState();
-  const [login, result, lastPromiseInfo] = useLazyLoginQuery();
+  const [login, result] = useLoginMutation();
   return (
     <div>
       <h1>Login</h1>

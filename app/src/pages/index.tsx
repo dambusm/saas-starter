@@ -1,7 +1,10 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useMeQuery } from '../store/database-api/slices/auth-manager-queries-slice';
 
 export default function Home() {
+  const { data: me, isLoading, isSuccess, isError, error } = useMeQuery({});
+
   return (
     <div className="container">
       <Head>
@@ -11,6 +14,7 @@ export default function Home() {
 
       <main>
         <p className="description">
+          {JSON.stringify(me)}
           {/*{!session && (*/}
           {/*  <>*/}
           {/*    Not signed in <br />*/}
