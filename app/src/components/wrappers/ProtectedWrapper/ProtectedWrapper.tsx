@@ -1,20 +1,37 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { logger } from '../../../pages/_app';
-import { useMeQuery } from '../../../store/database-api/slices/auth-manager-queries-slice';
+import {
+  useMeQuery,
+  useRefreshTokenMutation,
+} from '../../../store/database-api/slices/auth-manager-queries-slice';
 import Redirect from '../../utilities/Redirect/Redirect';
 
 const Index: FC = (props) => {
   const { children } = props;
-  const { data, isLoading, isError, error } = useMeQuery({});
-  console.log(data);
-  if (isError) {
-    logger.error(error);
-    return <Redirect to={'/auth/login'} />;
+  const { data: me, isLoading, error: meError } = useMeQuery({});
+  const [refreshToken, { isLoading: isLoadingRefreshedToken }] =
+    useRefreshTokenMutation();
+  const [shouldRefreshToken, setShouldRefreshToken] = useState(true);
+  const isAuthenticated = !!me?.email;
+
+  useEffect(() => {
+    if (shouldRefreshToken && meError) {
+      // TODO: Check more specifically for expired token error
+      refreshToken({});
+      setShouldRefreshToken(false);
+    }
+  }, [meError, refreshToken, shouldRefreshToken]);
+
+  if (isAuthenticated) {
+    return <>{children}</>;
   }
-  if (isLoading) {
+
+  if (isLoading || isLoadingRefreshedToken) {
     return <>loading...</>;
   }
-  return <>{children}</>;
+
+  logger.error(meError);
+  return <Redirect to={'/auth/login'} />;
 };
 
 export default Index;
