@@ -9,7 +9,7 @@ export class AuthManager {
     return this.directusSDK.auth.login({ email, password });
   }
   async signup(email: string, password: string, roleId: string) {
-    return this.directusSDK.users.createOne({ email, password });
+    return this.directusSDK.users.createOne({ email, password, role: roleId });
   }
   async me() {
     return this.directusSDK.users.me.read();
