@@ -1,10 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/dist/query/react';
-import { dataManager } from '../../pages/_app';
-import { fetcherBaseQuery } from '../lib/baseQueries';
+import { dataManager } from '../../../pages/_app';
+import { databaseApiSlice } from '../database-api-slice';
 
-export const authManagerQueries = createApi({
-  reducerPath: 'authManager',
-  baseQuery: fetcherBaseQuery(),
+export const authManagerQueriesSlice = databaseApiSlice.injectEndpoints({
   endpoints: (build) => ({
     me: build.query({
       query: () => ({
@@ -25,4 +23,4 @@ export const authManagerQueries = createApi({
 });
 
 export const { useLazyLoginQuery, useMeQuery, useLazyRefreshTokenQuery } =
-  authManagerQueries;
+  authManagerQueriesSlice;

@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { useLazyLoginQuery } from '../../../store/auth/auth-manager-queries';
+import { useLazyLoginQuery } from '../../../store/database-api/slices/auth-manager-queries-slice';
 import { dataManager } from '../../_app';
 import styles from '../../posts/posts.module.scss';
 

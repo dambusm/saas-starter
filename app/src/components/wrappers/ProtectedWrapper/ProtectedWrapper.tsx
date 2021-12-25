@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useMeQuery } from '../../../store/auth/auth-manager-queries';
+import { useMeQuery } from '../../../store/database-api/slices/auth-manager-queries-slice';
 
 const Index: FC = (props) => {
   const { children } = props;

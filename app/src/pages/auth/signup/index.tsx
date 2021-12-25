@@ -1,8 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
-import { useLazyLoginQuery } from '../../../store/auth/auth-manager-queries';
+import { useLazySignupQuery } from '../../../store/local-api/slices/auth-api-slice';
 import { dataManager } from '../../_app';
 import styles from '../../posts/posts.module.scss';
-import { useLazySignupQuery } from '../../../store/auth/auth-api-queries';
 
 const Index: FC = (props) => {
   const emailRef = useRef<HTMLInputElement>(null);
