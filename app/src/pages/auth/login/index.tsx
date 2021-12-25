@@ -1,7 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useLoginMutation } from '../../../store/database-api/slices/auth-manager-queries-slice';
-import { dataManager } from '../../_app';
-import styles from '../../posts/posts.module.scss';
 
 const Index: FC = (props) => {
   const emailRef = useRef<HTMLInputElement>(null);

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useRef } from 'react';
 import { useSignupMutation } from '../../../store/local-api/slices/auth-api-slice';
 
 const Index: FC = () => {

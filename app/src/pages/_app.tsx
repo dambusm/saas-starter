@@ -1,10 +1,10 @@
 import { DataManager } from '@saas-starter/data-lib';
 import { AppProps } from 'next/app';
 import React from 'react';
+import { Provider } from 'react-redux';
 import 'water.css/dist/light.css';
 import config from '../lib/config';
 import Logger from '../lib/logger';
-import { Provider } from 'react-redux';
 import store from '../store/store';
 
 export const logger = new Logger();

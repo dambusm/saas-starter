@@ -1,10 +1,10 @@
+import { TransportError } from '@directus/sdk';
 import { AuthManager } from './auth-manager';
 import {
   getTypedDirectusSDK,
   TypedDirectusSDK,
 } from './data-sources/directus/directus-sdk';
 import { PostsManager } from './posts-manager';
-import { TransportError } from '@directus/sdk';
 
 export class DataManager {
   directusSDK: TypedDirectusSDK;
