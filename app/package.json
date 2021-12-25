@@ -10,8 +10,8 @@
     "analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "1.6.2",
-    "next": "12.0.3",
+    "@reduxjs/toolkit": "1.7.1",
+    "next": "12.0.7",
     "next-transpile-modules": "9.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -19,10 +19,10 @@
     "water.css": "https://github.com/kognise/water.css"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "12.0.3",
-    "@types/react": "17.0.34",
-    "concurrently": "6.3.0",
-    "sass": "1.43.4"
+    "@next/bundle-analyzer": "12.0.7",
+    "@types/react": "17.0.38",
+    "concurrently": "6.5.1",
+    "sass": "1.45.1"
   },
   "peerDependencies": {
     "@saas-starter/data-lib": "*",
