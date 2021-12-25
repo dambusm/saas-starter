@@ -1,14 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
-import { useLazyLoginQuery } from '../../../store/auth/auth-manager-queries';
-import { dataManager } from '../../_app';
-import styles from '../../posts/posts.module.scss';
-import { useLazySignupQuery } from '../../../store/auth/auth-api-queries';
+import { useSignupMutation } from '../../../store/local-api/slices/auth-api-slice';
 
-const Index: FC = (props) => {
+const Index: FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState();
-  const [signup, result, lastPromiseInfo] = useLazySignupQuery();
+  const [signup, result] = useSignupMutation();
   return (
     <div>
       <h1>Signup</h1>

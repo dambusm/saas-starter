@@ -14,4 +14,7 @@ export class AuthManager {
   async me() {
     return this.directusSDK.users.me.read();
   }
+  async refreshToken() {
+    return this.directusSDK.auth.refresh();
+  }
 }
