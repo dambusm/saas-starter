@@ -1,4 +1,3 @@
-import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/react';
 import { isDataLibError } from '@saas-starter/data-lib';
 
 export const fetchAndTransformResponse = async <T>(
