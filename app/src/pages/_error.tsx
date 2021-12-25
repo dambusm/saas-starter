@@ -1,33 +1,21 @@
 import { NextPage, NextPageContext } from 'next';
+import ErrorPageComponent from '../components/pages/ErrorPage/ErrorPage';
 import { logger } from './_app';
 
-const Error: NextPage<Props> = (props) => {
-  const { statusCode } = props;
+const ErrorPage: NextPage<Props> = (props) => {
+  const { statusCode, error } = props;
   const isServerSideError = !!statusCode; // 500 errors are handled both client-side and server-side by the Error component.
 
-  return (
-    <div
-      style={{
-        marginTop: '30vh',
-        textAlign: 'center',
-      }}
-    >
-      <h1>Something went wrong</h1>
-      <p>
-        We're sorry, an unexpected error occurred. Please refresh or try again
-        later.
-      </p>
-    </div>
-  );
+  return <ErrorPageComponent error={error} />;
 };
 
 const getInitialProps = ({ res, err }: NextPageContext) => {
   logger.error(err, res);
-  return { statusCode: res?.statusCode || err?.statusCode };
+  return { statusCode: res?.statusCode || err?.statusCode, error: err };
 };
 
-Error.getInitialProps = getInitialProps;
+ErrorPage.getInitialProps = getInitialProps;
 
 type Props = ReturnType<typeof getInitialProps>;
 
-export default Error;
+export default ErrorPage;
