@@ -7,11 +7,17 @@ const Index: FC = (props) => {
 
   return (
     <>
-      <header>
+      <header
+        style={{
+          marginTop: '1rem',
+          textAlign: 'center',
+          marginBottom: '1rem',
+        }}
+      >
         <h1>Hello, World</h1>
         {isLoading ? 'loading...' : me ? <div>{me.email}</div> : null}
       </header>
-      {children}
+      <main>{children}</main>
     </>
   );
 };

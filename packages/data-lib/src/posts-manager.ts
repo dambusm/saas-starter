@@ -25,7 +25,8 @@ export class PostsManager {
     ).data;
   }
 
-  createPost(content: string) {
+  createPost(parameters: { content: string }) {
+    const { content } = parameters;
     return this.directusItemsManager.createOne({
       content,
     });

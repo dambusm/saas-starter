@@ -4,19 +4,13 @@ import { databaseApiSlice } from '../database-api-slice';
 
 export const postsManagerQueriesSlice = databaseApiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getPosts: build.query({
-      queryFn: ({
-        limit = 10,
-        creatorId,
-      }: {
-        limit?: number;
-        creatorId?: string;
-      }) =>
+    createPost: build.mutation({
+      queryFn: ({ content }: { content: string }) =>
         fetchAndTransformResponse(() =>
-          dataManager.postsManager.getPosts({ limit, creatorId })
+          dataManager.postsManager.createPost({ content })
         ),
     }),
   }),
 });
 
-export const { useGetPostsQuery } = postsManagerQueriesSlice;
+export const { useCreatePostMutation } = postsManagerQueriesSlice;
