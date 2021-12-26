@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "setup": "cp check-commits.sh .git/hooks/pre-push && cp check-commits.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-push && chmod +x .git/hooks/pre-commit && git remote add template git@github.com:dambusm/next-hasura-boilerplate.git",
+    "setup": "cp check-commits.sh .git/hooks/pre-push && cp check-commits.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-push && chmod +x .git/hooks/pre-commit && git remote add template git@github.com:dambusm/saas-starter.git",
     "merge-template-changes": "git fetch template && git merge template/main --allow-unrelated-histories"
   },
   "devDependencies": {

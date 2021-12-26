@@ -1,5 +1,5 @@
 {
-  //  "exclude": ["node_modules"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es2015",
     "allowJs": true,
@@ -19,6 +19,5 @@
     "noFallthroughCasesInSwitch": true,
     "lib": ["esnext"],
     "noUncheckedIndexedAccess": true
-  },
-  "include": ["src"]
+  }
 }
