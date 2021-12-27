@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "foo": "node --loader ts-node/esm src/foo.ts"
+    "foo": "node --loader ts-node/esm src/foo.ts",
+    "setup-backend-deployment-heroku": "node --loader ts-node/esm src/setup-backend-deployment-heroku.ts"
   },
   "peerDependencies": {
     "typescript": "*"
