@@ -1,0 +1,2 @@
+release: yarn workspace @saas-starter/backend bootstrap
+web: yarn workspace @saas-starter/backend start

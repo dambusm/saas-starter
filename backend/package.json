@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "directus start",
-    "bootstrap": "directus bootstrap && directus schema apply ./schema.yaml",
-    "snapshot": "directus schema snapshot ./schema.yaml"
+    "start": "CONFIG_PATH=config/${BACKEND_STAGE}.config.js directus start",
+    "bootstrap": "CONFIG_PATH=config/${BACKEND_STAGE}.config.js directus bootstrap && CONFIG_PATH=config/${BACKEND_STAGE}.config.js directus schema apply ./schema.yaml -y",
+    "snapshot": "directus schema snapshot ./schema.yaml",
+    "deploy:dev": "git push --force dev +HEAD:master",
+    "deploy:prod": "git push --force prod +HEAD:master",
+    "setup-deployment-heroku": "yarn workspace @saas-starter/scripts setup-backend-deployment-heroku"
   },
   "keywords": [],
   "author": "",
