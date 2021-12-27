@@ -9,7 +9,7 @@ import store from '../store/store';
 
 export const logger = new Logger();
 
-export const dataManager = new DataManager(config.baseURL);
+export const dataManager = new DataManager(config.databaseApi.baseURL);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

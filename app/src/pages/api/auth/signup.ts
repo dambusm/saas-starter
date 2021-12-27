@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!getIsEmailValid(email)) {
     return res.status(400).send(['Email is invalid']);
   }
-  const dataManager = new DataManager(config.baseURL);
+  const dataManager = new DataManager(config.databaseApi.baseURL);
   const serverAuthToken = process.env.SERVER_FUNCTIONS_DIRECTUS_TOKEN;
   const userRoleId = process.env.DIRECTUS_USER_ROLE_ID;
   if (!serverAuthToken || !userRoleId) {

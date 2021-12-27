@@ -8,7 +8,7 @@ const Index: FC<Props> = (props) => {
   return <div className={styles.container}>{JSON.stringify(posts)}</div>;
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // `getStaticProps` is invoked on the server-side,
   // so this `fetcher` function will be executed on the server-side.
   const postsResponse = await fetchAndTransformResponse(() =>
@@ -23,6 +23,6 @@ export async function getStaticProps() {
     revalidate: 60,
   };
 }
-type Props = PromiseResult<ReturnType<typeof getStaticProps>>['props'];
+type Props = PromiseResult<ReturnType<typeof getServerSideProps>>['props'];
 
 export default Index;

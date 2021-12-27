@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "foo": "node --loader ts-node/esm src/foo.ts",
-    "setup-backend-deployment-heroku": "node --loader ts-node/esm src/setup-backend-deployment-heroku.ts"
+    "setup-backend-deployment-heroku": "node --loader ts-node/esm src/setup-backend-deployment-heroku.ts",
+    "setup-frontend-deployment-netlify": "node --loader ts-node/esm src/setup-frontend-deployment-netlify.ts"
   },
   "peerDependencies": {
     "typescript": "*"
