@@ -4,7 +4,7 @@ Directus database backend
 
 ## Getting started
 
-- Edit `.env` to have correct database info
+- Run `yarn setup-local` to create database
 - Run `yarn bootstrap`
 
 ## Deployment

@@ -2,7 +2,7 @@ module.exports = {
   DB_CLIENT: 'pg',
   DB_HOST: '127.0.0.1',
   DB_PORT: '5432',
-  DB_DATABASE: 'directus-starter',
+  DB_DATABASE: 'saas-starter',
   DB_USER: 'postgres',
   DB_PASSWORD: '',
   DB_SSL: 'false',
