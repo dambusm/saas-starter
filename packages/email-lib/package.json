@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@saas-starter/email-lib",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {},
+  "dependencies": {
+    "nodemailer": "6.7.2",
+    "nodemailer-postmark-transport": "5.2.1",
+    "postmark": "2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.4",
+    "@types/nodemailer": "6.4.4"
+  },
+  "peerDependencies": {
+    "typescript": "*"
+  }
+}

@@ -27,6 +27,7 @@
   },
   "peerDependencies": {
     "@saas-starter/data-lib": "*",
+    "@saas-starter/email-lib": "*",
     "prettier": "*",
     "typescript": "*"
   }
