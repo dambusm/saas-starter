@@ -1,0 +1,4 @@
+# This is the netlify deploy config for /app. It must remain in the root folder.
+# Only `base` is needed here, all other config options go in `/app/netlify.toml`
+[build]
+base = "app/"
