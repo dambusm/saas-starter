@@ -5,8 +5,7 @@
   "scripts": {
     "build": "next build",
     "start": "next dev",
-    "deploy:dev": "vercel",
-    "deploy:prod": "vercel --prod",
+    "deploy": "echo 'Just push to Github'",
     "analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
